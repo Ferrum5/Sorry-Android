@@ -77,6 +77,8 @@ class TemplateViewModel : ViewModel() {
                 val frameDuration = videoDuration / frames
                 val progress = GifProgress(0, frames)
                 val encoder = AnimatedGifEncoder()
+                encoder.setRepeat(0)
+                encoder.setDelay(frameDuration.toInt())
                 val bos = ByteArrayOutputStream()
                 encoder.start(bos)
                 var assIndex = 0
