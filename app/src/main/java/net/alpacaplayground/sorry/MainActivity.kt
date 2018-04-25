@@ -36,7 +36,7 @@ class MainActivity : BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-            alert("请允许读写外部存储权限，已储存生成的gif文件")
+            alert("请允许读写外部存储权限以储存生成的gif文件")
         }else{
             jump()
         }

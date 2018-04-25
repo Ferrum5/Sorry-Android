@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_template.*
@@ -30,9 +31,11 @@ class TemplateActivity : BaseActivity() {
         edits = Array(array.length()) {
             val jsonItem = array.getJSONObject(it)
             val editText = EditText(this)
-            jsonItem.optString("content")?.apply { editText.setText(this) }
+            val prompt = "第${it + 1}条字幕"
+            editText.hint = jsonItem.optString("hint")?:prompt
             editText.gravity = Gravity.CENTER_VERTICAL
-            editText.hint = "第${it + 1}条字幕"
+            editText.setSingleLine()
+            editText.imeOptions = EditorInfo.IME_ACTION_NEXT
             linearTemplate.addView(editText, LinearLayout.LayoutParams(MATCH, dip2Px(50)).apply {
                 leftMargin = dip2Px(5)
                 rightMargin = leftMargin
@@ -40,7 +43,7 @@ class TemplateActivity : BaseActivity() {
 
             AssItem(jsonItem.getString("start"),
                     jsonItem.getString("end"),
-                    editText)
+                    editText,prompt)
         }
 
         var model: TemplateViewModel = getViewModel()
@@ -85,7 +88,7 @@ class TemplateActivity : BaseActivity() {
                     val input = it.editText.text.toString()
                     if (input.isEmpty()) {
                         it.editText.requestFocus()
-                        throw AssNotAllFillException("请输入${it.editText.hint}")
+                        throw AssNotAllFillException("请输入${it.prompt}")
                     }
                     AssEntity(it.startTime, it.endTime, input)
                 })
@@ -99,7 +102,7 @@ class TemplateActivity : BaseActivity() {
         }
     }
 
-    class AssItem(val startTime: String, val endTime: String, val editText: EditText)
+    class AssItem(val startTime: String, val endTime: String, val editText: EditText, val prompt: String)
 
     class AssNotAllFillException(override val message: String) : Exception(message)
 }

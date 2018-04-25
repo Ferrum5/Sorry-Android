@@ -13,7 +13,15 @@ android {
         versionName "1.0"
         ndk {
             abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
-        }    }
+        }
+    }
+    android.applicationVariants.all { variant ->
+        if(variant.buildType.name == "release"){
+            variant.outputs.each { output ->
+                output.outputFileName = "sorry_v${android.defaultConfig.versionCode}_${android.defaultConfig.versionName}.apk"
+            }
+        }
+    }
 }
 
 dependencies {

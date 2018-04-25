@@ -15,8 +15,13 @@ import java.io.*
 import android.graphics.Color
 import android.graphics.Paint
 import android.media.MediaMetadataRetriever
+import android.os.Build
 import java.text.SimpleDateFormat
 import java.util.*
+import android.os.Environment.getExternalStorageDirectory
+import android.content.Intent
+import android.media.MediaScannerConnection
+import android.net.Uri
 
 
 class TemplateViewModel : ViewModel() {
@@ -48,12 +53,11 @@ class TemplateViewModel : ViewModel() {
                 videoInputStream.copyTo(videoOutputStream)
                 videoInputStream.close()
                 videoOutputStream.close()
-
                 //获取视频时长
                 val mmr = MediaMetadataRetriever()
                 mmr.setDataSource(videoFile.absolutePath)
                 val videoDuration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
-
+                mmr.release()
                 //将视频文件转成gif
                 val tempGif = File(tempPicDir, "temp.gif")
                 Controller.getInstance().run(arrayOf(
@@ -64,16 +68,11 @@ class TemplateViewModel : ViewModel() {
                 ))
 
                 //逐帧加字幕
-
                 val decoder = GifDrawable(tempGif)
                 val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-                paint.textSize = dip2Px(7).toFloat()
                 paint.color = Color.WHITE
-//                val paintStroke = Paint(Paint.ANTI_ALIAS_FLAG)
-//                paintStroke.textSize = paint.textSize
-//                paintStroke.style = Paint.Style.STROKE
-//                paintStroke.strokeWidth = 1f// 描边宽度
-//                paintStroke.color = Color.BLACK
+                paint.isDither = true // 获取跟清晰的图像采样
+                paint.isFilterBitmap = true// 过滤一些
                 val frames = decoder.numberOfFrames
                 val frameDuration = videoDuration / frames
                 val progress = GifProgress(0, frames)
@@ -124,6 +123,8 @@ class TemplateViewModel : ViewModel() {
                 liveProgress.postValue(progress)
                 GifDrawable(gifFile).apply { loopCount = Character.MAX_VALUE.toInt() }
                         .callLiveData(liveGif)
+                //通知系统扫描媒体库
+                notifySystemMedia(gifFile)
                 liveMessage.postValue("生成成功，文件路径为${gifFile.path}")
             } catch (e: Exception) {
                 Log.i("GifCreate", "发生异常", e)
@@ -136,8 +137,8 @@ class TemplateViewModel : ViewModel() {
 
     private fun drawTextToBitmap(bitmap: Bitmap, text: String,
                                  paint: Paint): Bitmap {
-        paint.isDither = true // 获取跟清晰的图像采样
-        paint.isFilterBitmap = true// 过滤一些
+        //字号设置为图片高度的1/n
+        paint.textSize = bitmap.height/10.toFloat()
         val canvas = Canvas(bitmap)
         val textWidth = paint.measureText(text)
         val bch = bitmap.width / 2
@@ -156,5 +157,27 @@ class TemplateViewModel : ViewModel() {
         val uSecond = time.substring(8).toInt()
         return hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + uSecond * 10
     }
+
+    lateinit var connection: MediaScannerConnection
+
+    private fun notifySystemMedia(gifFile: File){
+        if(Build.VERSION.SDK_INT<=19){
+            application.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(gifFile)))
+        }else{
+            connection = MediaScannerConnection(application,object: MediaScannerConnection.MediaScannerConnectionClient{
+                override fun onMediaScannerConnected() {
+                    connection.scanFile(gifFile.absolutePath,"image/gif")
+                }
+
+                override fun onScanCompleted(path: String?, uri: Uri?) {
+                    connection.disconnect()
+                }
+
+            })
+            connection.connect()
+        }
+    }
+
+
 
 }

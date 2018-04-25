@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imageTemplate"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0px"
@@ -11,34 +15,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <ImageView
-                android:id="@+id/imageTemplate"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生成文件名："
+                    />
+                <EditText
+                    android:id="@+id/editTemplateGifFileName"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:hint="请输入"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=".gif"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-        <EditText
-            android:id="@+id/editTemplateGifFileName"
-            android:layout_width="0px"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:textSize="13sp"
-            android:hint="生成gif文件名"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text=".gif"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
     <net.alpacaplayground.sorry.template.ProgressFrameLayout
         android:id="@+id/customerTemplateProgress"
         android:layout_width="match_parent"
