@@ -32,7 +32,7 @@ class TemplateActivity : BaseActivity() {
             val jsonItem = array.getJSONObject(it)
             val editText = EditText(this)
             val prompt = "第${it + 1}条字幕"
-            editText.hint = jsonItem.optString("hint")?:prompt
+            editText.hint = jsonItem.optString("hint", null) ?: prompt
             editText.gravity = Gravity.CENTER_VERTICAL
             editText.setSingleLine()
             editText.imeOptions = EditorInfo.IME_ACTION_NEXT
@@ -43,7 +43,7 @@ class TemplateActivity : BaseActivity() {
 
             AssItem(jsonItem.getString("start"),
                     jsonItem.getString("end"),
-                    editText,prompt)
+                    editText, prompt)
         }
 
         var model: TemplateViewModel = getViewModel()
@@ -58,7 +58,7 @@ class TemplateActivity : BaseActivity() {
                 if (progress != total) {
                     textTemplateCreate.text = "正在处理第${progress}帧，共$total"
                     customerTemplateProgress.setProgressAndTotal(this)
-                }else{
+                } else {
                     textTemplateCreate.text = "生成"
                     textTemplateCreate.isClickable = true
                     customerTemplateProgress.resetProgress()
@@ -96,7 +96,7 @@ class TemplateActivity : BaseActivity() {
                 alert(e.message)
                 customerTemplateProgress.resetProgress()
                 customerTemplateProgress.invalidate()
-                textTemplateCreate.text ="生成"
+                textTemplateCreate.text = "生成"
                 textTemplateCreate.isClickable = true
             }
         }
