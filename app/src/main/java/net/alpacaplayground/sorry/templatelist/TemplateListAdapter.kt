@@ -1,72 +1,85 @@
 package net.alpacaplayground.sorry.templatelist
 
 import android.arch.lifecycle.Observer
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import net.alpacaplayground.sorry.R
 import net.alpacaplayground.sorry.entity.TemplateItemEntity
-import net.alpacaplayground.sorry.utils.MATCH
+import net.alpacaplayground.sorry.utils.SimpleAdapter
+import net.alpacaplayground.sorry.utils.SimpleHolder
 import net.alpacaplayground.sorry.utils.VideoCoverLoader
-import net.alpacaplayground.sorry.utils.WRAP
-import net.alpacaplayground.sorry.utils.dip2Px
+import org.jetbrains.anko.*
 
-class TemplateListAdapter : RecyclerView.Adapter<TemplateListAdapter.ViewHolder>(),Observer<List<TemplateItemEntity>> {
+class TemplateListAdapter : SimpleAdapter(), Observer<List<TemplateItemEntity>> {
+
     override fun onChanged(t: List<TemplateItemEntity>?) {
         mList = t
     }
 
     var mList: List<TemplateItemEntity>? = null
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    var onItemClickListener: OnItemClickListener? = null
+    var onItemClickListener: ((Int, TemplateItemEntity) -> Unit)? = null
 
-    interface OnItemClickListener{
-        fun onItemClick(position: Int, item: TemplateItemEntity?)
-    }
 
-    operator fun get(index: Int): TemplateItemEntity?{
-       return mList?.get(index)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_template_list,parent,false)
-        return ViewHolder(itemView).apply { itemView.setOnClickListener(this) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleHolder {
+        return ViewHolder(parent.context.verticalLayout()).bindAdapter(this)
     }
 
     override fun getItemCount(): Int {
         return mList?.size ?: 0
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val name = this[position]?.name
-        val file = this[position]?.file
-        holder.textName.text = name?:"null"
-        VideoCoverLoader.instance.load(file,holder.imageCover)
+    override fun onBindViewHolder(holder: SimpleHolder, position: Int) {
+        mList?.get(position)?.apply {
+            with(holder as ViewHolder) {
+                holder.textName.text = name ?: "null"
+                VideoCoverLoader.load(file, holder.imageCover)
+            }
+        }
     }
 
-
-    inner class ViewHolder(itemView: View,
-                           val imageCover: ImageView = itemView.findViewById(R.id.imageItemTemplateCover),
-                           val textName: TextView = itemView.findViewById(R.id.textItemTemplateName)):
-            RecyclerView.ViewHolder(itemView),
-            View.OnClickListener {
-        init {
-            val params = RecyclerView.LayoutParams(MATCH,WRAP)
-            params.leftMargin = dip2Px(5)
-            params.rightMargin = params.leftMargin
-            itemView.layoutParams = params
+    override fun onItemClick(view: View, holder: SimpleHolder) {
+        onItemClickListener?.apply {
+            val pos = holder.adapterPosition
+            val item = mList?.get(pos)
+            if (item != null) {
+                invoke(pos, item)
+            }
         }
-        override fun onClick(v: View?) {
-            onItemClickListener?.onItemClick(adapterPosition,mList?.get(adapterPosition))
-        }
+    }
+}
 
+private class ViewHolder(itemView: View) : SimpleHolder(itemView) {
+    lateinit var imageCover: ImageView
+    lateinit var textName: TextView
+
+    init {
+        with(itemView as _LinearLayout) {
+            gravity = Gravity.CENTER_HORIZONTAL
+            setOnClickListener(this@ViewHolder)
+            imageCover = imageView().lparams(width = MATCH_PARENT, height = dip(100))
+            textName = textView {
+                textSize = 18f
+                textColor = Color.BLACK
+            }
+            lparams(width = MATCH_PARENT) {
+                horizontalMargin = dip(5)
+            }
+            view {
+                backgroundColor = Color.DKGRAY
+            }.lparams(width = MATCH_PARENT, height = dip(1))
+        }
     }
 }

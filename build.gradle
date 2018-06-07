@@ -5,6 +5,7 @@ buildscript {
     ext.supportLibrary = ext.sdk+".1.1"
     ext.junit = "4.12"
     ext.architecture ="1.1.1"
+    ext.anko_version='0.10.5'
 
 
     repositories {

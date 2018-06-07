@@ -1,6 +1,10 @@
 package net.alpacaplayground.sorry.template
 
-class GifProgress(var progress: Int, var total: Int){
-    val isFinsished: Boolean
-    get() = progress == total
-}
+import android.graphics.drawable.Drawable
+
+data class GifProgress(var progress: Int = 0,
+                       var total: Int = 0,
+                       var success: Boolean = false,
+                       var finished: Boolean = false,
+                       var message: String? = null,
+                       var gif: Drawable? = null)
