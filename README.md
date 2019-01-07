@@ -1,4 +1,5 @@
 # Sorry-Android
+### 今年有点急事要弄，估计得弄到明年了，有空的话可能会弄弄
 ![img](https://github.com/10000RunningAlpaca/Sorry-Android/blob/master/readmefiles/ceshi.gif)   
 生成为所欲为动图的安卓实现   
 灵感和视频模板资源来自 https://github.com/xtyxtyx/sorry     
