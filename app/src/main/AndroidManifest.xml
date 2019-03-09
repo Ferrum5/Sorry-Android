@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.alpacaplayground.sorry">
+    package="com.github.waterpeak.sorry">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -8,20 +8,20 @@
         android:icon="@mipmap/icon_app"
         android:label="Sorry动图合成"
         android:theme="@style/AppTheme" >
-        <activity-alias
-            android:name="Entrance"
-            android:targetActivity=".MainActivity">
+        <activity android:name="com.github.waterpeak.sorry.ui.MainActivity"
+            android:label="Sorry, 有钱就是可以大晒" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
-        <activity android:name=".MainActivity"
-            android:label="Sorry, 有钱就是可以大晒" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <!--选择模板列表-->
-        <activity android:name=".templatelist.TemplateListActivity"
+        <activity android:name="com.github.waterpeak.sorry.ui.TemplateListActivity"
             android:label="选择模板"/>
-        <activity android:name=".template.TemplateActivity" />
+        <activity android:name="com.github.waterpeak.sorry.ui.GifEditActivity" />
     </application>
 
 </manifest>

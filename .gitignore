@@ -3,7 +3,6 @@
 /.idea
 *.iml
 /build
-/gradle
 /gradlew
 /gradlew.bat
 /local.properties
