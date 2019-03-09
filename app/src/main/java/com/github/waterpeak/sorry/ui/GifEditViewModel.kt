@@ -367,6 +367,8 @@ class GifEditViewModel : ViewModel() {
                 byteArrayOutputStream.writeTo(fileOutputStream)
                 fileOutputStream.flush()
                 progress.progress = totalFrames
+                progress.finished = true
+                progress.success = true
                 live.postValue(progress)
                 val gif = GifDrawable(gifFile).apply { loopCount = 0 }
 

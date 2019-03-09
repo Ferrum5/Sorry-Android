@@ -10,11 +10,18 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.setContentView
 import org.json.JSONObject
 import org.json.JSONTokener
+import org.jetbrains.anko.alert as ankoAlert
 
 
 class GifEditActivity : BaseActivity() {
 
     private val model: GifEditViewModel by lazyModel()
+
+    private val alert by lazy { ankoAlert("").build() }
+    private fun alert(message: String){
+        alert.setMessage(message)
+        alert.show()
+    }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState((outState ?: Bundle()).apply {
@@ -70,11 +77,12 @@ class GifEditActivity : BaseActivity() {
                                 if (gif != null) {
                                     ui.imageTop.setImageDrawable(gif)
                                 }
+                                alert(it.message?:"Finished")
                             } else {
-                                alert(it.message ?: "出错了")
+                                alert(it.message ?: "Error")
                             }
                         } else {
-                            ui.progressText.text = "正在处理第${it.progress}帧，共${it.total}"
+                            ui.progressText.text = "In progress, ${it.progress}/${it.total}"
                             setProgressAndTotal(it)
                         }
                     }

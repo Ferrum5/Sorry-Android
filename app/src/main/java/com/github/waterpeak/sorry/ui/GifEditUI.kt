@@ -56,8 +56,6 @@ class GifEditUI : AnkoComponent<GifEditActivity> {
                     gravity = Gravity.CENTER_VERTICAL
                     setSingleLine()
                     imeOptions = if (it != length - 1) EditorInfo.IME_ACTION_NEXT else EditorInfo.IME_ACTION_DONE
-                    //fixme
-                    setText(hint)
                 }.lparams(width = MATCH_PARENT, height = dip(50)) {
                     horizontalMargin = dip(5)
                 }
