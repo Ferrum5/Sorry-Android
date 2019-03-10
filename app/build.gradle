@@ -11,9 +11,9 @@ android {
         targetSdkVersion sdk
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
-        }
+//        ndk {
+//            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+//        }
     }
     android.applicationVariants.all { variant ->
         if(variant.buildType.name == "release"){
@@ -34,5 +34,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
 }

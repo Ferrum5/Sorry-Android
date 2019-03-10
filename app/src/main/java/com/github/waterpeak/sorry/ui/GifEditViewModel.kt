@@ -35,9 +35,9 @@ class GifEditViewModel : ViewModel() {
 
     @Deprecated("Old ffmepg implementation")
     private fun create(context: Context,
-               mp4: String,
-               outputName: String,
-               inputAss: List<AssEntity>): LiveData<GifProgress> {
+                       mp4: String,
+                       outputName: String,
+                       inputAss: List<AssEntity>): LiveData<GifProgress> {
         val live = MutableLiveData<GifProgress>()
         val myDir = File(getExternalStoragePublicDirectoryPicture(), "sorrygif")
         myDir.mkdirs()
@@ -149,9 +149,9 @@ class GifEditViewModel : ViewModel() {
     }
 
     private fun create3(context: Context,
-                mp4: String,
-                outputName: String,
-                inputAss: List<AssEntity>): LiveData<GifProgress> {
+                        mp4: String,
+                        outputName: String,
+                        inputAss: List<AssEntity>): LiveData<GifProgress> {
         val live = MutableLiveData<GifProgress>()
         val myDir = File(getExternalStoragePublicDirectoryPicture(), "sorrygif")
         myDir.mkdirs()
@@ -376,7 +376,6 @@ class GifEditViewModel : ViewModel() {
                 notifySystemMedia(context, gifFile)
                 live.postValue(GifProgress("Success.File path:${gifFile.path}", gif))
             } catch (e: Exception) {
-                throw AndroidRuntimeException(e)
                 Log.i("GifCreate", "发生异常", e)
                 live.postValue(GifProgress(e.message))
             } finally {
@@ -413,12 +412,12 @@ class GifEditViewModel : ViewModel() {
         return hour * 3600 * 1000 + minute * 60 * 1000 + second * 1000 + uSecond * 10
     }
 
-    lateinit var connection: MediaScannerConnection
 
     private fun notifySystemMedia(application: Context, gifFile: File) {
         if (Build.VERSION.SDK_INT <= 19) {
             application.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(gifFile)))
         } else {
+            lateinit var connection: MediaScannerConnection
             connection = MediaScannerConnection(application, object : MediaScannerConnection.MediaScannerConnectionClient {
                 override fun onMediaScannerConnected() {
                     connection.scanFile(gifFile.absolutePath, "image/gif")
