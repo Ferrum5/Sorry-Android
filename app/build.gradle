@@ -29,8 +29,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.1'
-    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.core:core:1.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
