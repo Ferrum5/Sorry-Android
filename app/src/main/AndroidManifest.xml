@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.waterpeak.sorry">
+    package="io.github.waterpeak.sorry">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -7,8 +7,8 @@
     <application
         android:icon="@mipmap/icon_app"
         android:label="Sorry动图合成"
-        android:theme="@style/AppTheme" >
-        <activity android:name="com.github.waterpeak.sorry.ui.MainActivity"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity"
             android:label="Sorry, 有钱就是可以大晒" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +19,9 @@
             </intent-filter>
         </activity>
         <!--选择模板列表-->
-        <activity android:name="com.github.waterpeak.sorry.ui.TemplateListActivity"
+        <activity android:name=".ui.list.TemplateListActivity"
             android:label="选择模板"/>
-        <activity android:name="com.github.waterpeak.sorry.ui.GifEditActivity" />
+        <activity android:name=".ui.edit.GifEditActivity" />
     </application>
 
 </manifest>

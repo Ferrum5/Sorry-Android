@@ -1,4 +1,4 @@
-package com.github.waterpeak.sorry.ui
+package io.github.waterpeak.sorry.ui.edit
 
 import android.widget.EditText
 

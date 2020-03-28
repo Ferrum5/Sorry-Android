@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/topImage"
+        android:contentDescription="cover of video"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/scrollColumn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="生成文件名：" />
+                <EditText
+                    android:id="@+id/fileName"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:hint="请输入"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <io.github.waterpeak.sorry.ui.edit.ProgressLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+    </io.github.waterpeak.sorry.ui.edit.ProgressLayout>
+</LinearLayout>

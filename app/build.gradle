@@ -1,38 +1,35 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion sdk
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "net.alpacaplayground.sorry"
+        applicationId "io.github.waterpeak.sorry"
         minSdkVersion 16
-        targetSdkVersion sdk
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-//        ndk {
-//            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
-//        }
-    }
-    android.applicationVariants.all { variant ->
-        if(variant.buildType.name == "release"){
-            variant.outputs.each { output ->
-                output.outputFileName = "sorry_v${android.defaultConfig.versionCode}_${android.defaultConfig.versionName}.apk"
-            }
-        }
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.core:core:1.0.2'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
-    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.core:core:1.2.0'
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    // Annotation processor
+    //kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }
